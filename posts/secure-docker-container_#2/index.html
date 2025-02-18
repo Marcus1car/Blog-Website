@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Secure-Docker-Container #2 : Understanding the Dockerfile | Marcus1car </title>
+<meta name="keywords" content="">
+<meta name="description" content="Introduction
+In this post I will go over the Dockerfile of the Secure Docker Container. A blueprint for creating our secure and controlled environment, ensuring that the system is isolated, stable, and resistant to attacks.
+After writing the Python scripts, I realised that starting with the Dockerfile might have been a mistake, as it made the writing process more complicated than necessary. Nonetheless, let’s break it down and explore its key features.">
+<meta name="author" content="">
+<link rel="canonical" href="https://example.org/posts/secure-docker-container_%232/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.45e028aa8ce0961349adf411b013ee39406be2c0bc80d4ea3fc04555f7f4611a.css" integrity="sha256-ReAoqozglhNJrfQRsBPuOUBr4sC8gNTqP8BFVff0YRo=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="https://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://example.org/posts/secure-docker-container_%232/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://example.org/posts/secure-docker-container_%232/">
+  <meta property="og:site_name" content="Marcus1car ">
+  <meta property="og:title" content="Secure-Docker-Container #2 : Understanding the Dockerfile">
+  <meta property="og:description" content="Introduction In this post I will go over the Dockerfile of the Secure Docker Container. A blueprint for creating our secure and controlled environment, ensuring that the system is isolated, stable, and resistant to attacks.
+After writing the Python scripts, I realised that starting with the Dockerfile might have been a mistake, as it made the writing process more complicated than necessary. Nonetheless, let’s break it down and explore its key features.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-04T16:35:43+01:00">
+    <meta property="article:modified_time" content="2025-02-04T16:35:43+01:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Secure-Docker-Container #2 : Understanding the Dockerfile">
+<meta name="twitter:description" content="Introduction
+In this post I will go over the Dockerfile of the Secure Docker Container. A blueprint for creating our secure and controlled environment, ensuring that the system is isolated, stable, and resistant to attacks.
+After writing the Python scripts, I realised that starting with the Dockerfile might have been a mistake, as it made the writing process more complicated than necessary. Nonetheless, let’s break it down and explore its key features.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Secure-Docker-Container #2 : Understanding the Dockerfile",
+      "item": "https://example.org/posts/secure-docker-container_%232/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Secure-Docker-Container #2 : Understanding the Dockerfile",
+  "name": "Secure-Docker-Container #2 : Understanding the Dockerfile",
+  "description": "Introduction In this post I will go over the Dockerfile of the Secure Docker Container. A blueprint for creating our secure and controlled environment, ensuring that the system is isolated, stable, and resistant to attacks.\nAfter writing the Python scripts, I realised that starting with the Dockerfile might have been a mistake, as it made the writing process more complicated than necessary. Nonetheless, let’s break it down and explore its key features.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "Introduction In this post I will go over the Dockerfile of the Secure Docker Container. A blueprint for creating our secure and controlled environment, ensuring that the system is isolated, stable, and resistant to attacks.\nAfter writing the Python scripts, I realised that starting with the Dockerfile might have been a mistake, as it made the writing process more complicated than necessary. Nonetheless, let’s break it down and explore its key features.\nSetup Base image\nThe base image is Ubuntu 22.04 instead of the latest version. Using a fixed version ensures a stable and secure environment, reducing the attack surface.\nFROM ubuntu:22.04 ENV DEBIAN_FRONTEND=noninteractive By setting DEBIAN_FRONTEN to noninteractive, we prevent interactive prompts during installation.\nProject Structure Creation\nThe Dockerfile creates the necessary directory structure for the rest of the project :\nRUN mkdir -p /app/Secure-Docker-Container/logs \u0026\u0026 \\ mkdir -p /app/Secure-Docker-Container/samples \u0026\u0026 \\ mkdir -p /app/Secure-Docker-Container/scripts \u0026\u0026 \\ Resulting in the following structure :\n├── Dockerfile ├── entrypoint.sh ├── logs │ └── File Analysis and Execution Logs ├── README.md ├── requirements.txt ├── samples │ └── Test Files └── scripts └── File Analysis and Execution Scripts logs/, Stores logs from file analysis and execution.\nsamples/, Contains test files for analysis.\nscripts/, Houses the core Python scripts for execution and analysis.\n/var/run/clamav, Required for ClamAV’s local socket operations.\nThis structure may be subject to change in future updates.\nClamAV Socket Directory\nClamAV requires a dedicated socket directory to operate correctly. So we include the following commands to create and configure it :\nmkdir -p /var/run/clamav \u0026\u0026 \\ chown -R 10001:10001 /var/run/clamav \u0026\u0026 \\ chmod 770 /var/run/clamav mkdir -p /var/run/clamav, ensures the ClamAV socket directory exists\nchown -R 10001:10001 /var/run/clamav, assigns ownership to the non-root user (fileanalyst), preventing unauthorised modifications\nchmod 770 /var/run/clamav, grants read, write, and execute permissions to the user and group while restricting access to others\nOverall this setup ensures that only the designated user can interact with the ClamAV socket, while blocking unauthorised access from other processes.\nEssential Packages needed for our Environment In this section, we will install all the necessary packages to run our scripts effectively. Additionally these packages will enable file scanning for potential threats, facilitate file type identification, provide debugging tools, and ensure secure privilege management.\npython3-minimal: Lightweight Python installation\npython3-pip: Package Manager for Python\nlibmagic1: File type detection\nclamav \u0026 clamav-daemon: Antivirus scanning\ngosu: Secure privilege de-escalation\nnetcat-openbsd: Network utilities for debugging\nRUN apt-get update \u0026\u0026 apt-get install -y \\ python3-minimal \\ python3-pip \\ libmagic1 \\ clamav \\ clamav-daemon \\ gosu \\ netcat-openbsd \u0026\u0026 \\ apt-get clean \u0026\u0026 rm -rf /var/lib/apt/lists/* apt-get clean \u0026\u0026 rm -rf /var/lib/apt/lists/*, cleans up unecessary package files to minimise image size and potential risks\nThen we install Python dependencies from requirements.txt :\nCOPY requirements.txt ./ RUN pip3 install --no-cache-dir -r requirements.txt Which contains python-magic, used for file type determination based on magic numbers, and pyclamd, which provides a Python interface to communicate with ClamAV. Both are essential for the file analysis process .\nSafety Features Below are some key features added to the container :\n1️⃣ ClamAV Configuration\nRUN echo \"LocalSocket /var/run/clamav/clamd.sock\" \u003e\u003e /etc/clamav/clamd.conf \u0026\u0026 \\ echo \"MaxFileSize 100M\" \u003e\u003e /etc/clamav/clamd.conf \u0026\u0026 \\ echo \"MaxScanSize 100M\" \u003e\u003e /etc/clamav/clamd.conf File size limitation set to 100MB Scan size limitation set to 100MB Ensures ClamAV uses a local socket 2️⃣ User Configuration\nRUN groupadd -g 10001 fileanalyst \u0026\u0026 \\ useradd -u 10001 -g fileanalyst -s /bin/bash -m -d /home/fileanalyst fileanalyst Non-root execution Fixed UID/GID with limited permisions 3️⃣ Permission Hardening\nRUN chown -R fileanalyst:fileanalyst /app/Secure-Docker-Container \u0026\u0026 \\ chmod -R 750 /app/Secure-Docker-Container \u0026\u0026 \\ chmod 770 /app/Secure-Docker-Container/logs \u0026\u0026 \\ find /app/Secure-Docker-Container/scripts-name\"*.py\" -exec chmod 500 {} \\; Scripts: 500 (read \u0026 execute only) Logs: 770 (full access for service user) General files: 750 (controlled access) 4️⃣ Kernel Security Configurations\nRUN echo \"kernel.unprivileged_userns_clone=0\" \u003e\u003e /etc/sysctl.d/10-security.conf \u0026\u0026 \\ echo \"kernel.core_pattern=|/bin/false\" \u003e\u003e /etc/sysctl.d/10-security.conf Prevent unprivileged user namespace creation Disable core dumps for security Final Setup and Entry Point Finally, we define the entrypoint and ensure the container runs under the non-root user :\nUSER fileanalyst ENTRYPOINT [\"/entrypoint.sh\"] CMD [\"python3\", \"analyze.py\"] By specifying USER fileanalyst, we ensure that all operations run with restricted privileges rather than as root.\nentrypoint.sh\nThe entrypoint.sh script is responsible for:\nUpdating ClamAV virus definitions using freshclam.\nStarting the ClamAV daemon (clamd) in the background with clamd \u0026.\nWaiting for ClamAV to initialise before proceeding.\necho \"Waiting for socket...\" timeout=10 while [ ! -S /var/run/clamav/clamd.sock ] \u0026\u0026 [ $timeout -gt 0 ]; do sleep 1 ((timeout--)) done Setting the correct socket permissions. chown fileanalyst:fileanalyst /var/run/clamav/clamd.sock chmod 660 /var/run/clamav/clamd.sock Executing the container’s main process under a the file analyst user. exec gosu fileanalyst \"$@\" This ensures that ClamAV is fully initialised before any further processes run, preventing potential failures due to an unresponsive antivirus daemon. The use of gosu enhances security by ensuring the container does not run as root.\nFuture Posts With the Dockerfile done, we will in the next installment, break down the Python scripts for analysis and execution, discuss the rationale behind each scripts design decision .\n",
+  "wordCount" : "835",
+  "inLanguage": "en",
+  "datePublished": "2025-02-04T16:35:43+01:00",
+  "dateModified": "2025-02-04T16:35:43+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://example.org/posts/secure-docker-container_%232/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Marcus1car ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://example.org/" accesskey="h" title="Marcus1car  (Alt + H)">Marcus1car </a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://example.org/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://example.org/posts/" title="Blog">
+                    <span>Blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://example.org/" title="Contents">
+                    <span>Contents</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Secure-Docker-Container #2 : Understanding the Dockerfile
+    </h1>
+    <div class="post-meta"><span title='2025-02-04 16:35:43 +0100 CET'>February 4, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>In this post I will go over the Dockerfile of the Secure Docker Container. A blueprint for creating our secure and controlled environment, ensuring that the system is isolated, stable, and resistant to attacks.</p>
+<p>After writing the Python scripts, I realised that starting with the Dockerfile might have been a mistake, as it made the writing process more complicated than necessary. Nonetheless, let’s break it down and explore its key features.</p>
+<h2 id="setup">Setup<a hidden class="anchor" aria-hidden="true" href="#setup">#</a></h2>
+<p><strong>Base image</strong><br>
+The base image is <code>Ubuntu 22.04</code> instead of the latest version. Using a fixed version ensures a stable and secure environment, reducing the attack surface.</p>
+<pre tabindex="0"><code>FROM ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+</code></pre><p>By setting DEBIAN_FRONTEN to noninteractive, we prevent interactive prompts during installation.</p>
+<p><strong>Project Structure Creation</strong><br>
+The Dockerfile creates the necessary directory structure for the rest of the project :</p>
+<pre tabindex="0"><code>RUN mkdir -p /app/Secure-Docker-Container/logs &amp;&amp; \
+    mkdir -p /app/Secure-Docker-Container/samples &amp;&amp; \
+    mkdir -p /app/Secure-Docker-Container/scripts &amp;&amp; \
+</code></pre><p>Resulting in the following structure :</p>
+<pre tabindex="0"><code>├── Dockerfile  
+├── entrypoint.sh  
+├── logs  
+│   └── File Analysis and Execution Logs  
+├── README.md  
+├── requirements.txt  
+├── samples  
+│   └── Test Files  
+└── scripts  
+    └── File Analysis and Execution Scripts      
+</code></pre><p><code>logs/</code>, Stores logs from file analysis and execution.<br>
+<code>samples/</code>, Contains test files for analysis.<br>
+<code>scripts/</code>, Houses the core Python scripts for execution and analysis.<br>
+<code>/var/run/clamav</code>, Required for ClamAV’s local socket operations.</p>
+<p><em>This structure may be subject to change in future updates.</em></p>
+<p><strong>ClamAV Socket Directory</strong><br>
+ClamAV requires a dedicated socket directory to operate correctly. So we include the following commands to create and configure it :</p>
+<pre tabindex="0"><code>mkdir -p /var/run/clamav &amp;&amp; \
+chown -R 10001:10001 /var/run/clamav &amp;&amp; \
+chmod 770 /var/run/clamav
+</code></pre><p><code>mkdir -p /var/run/clamav</code>, ensures the ClamAV socket directory exists<br>
+<code>chown -R 10001:10001 /var/run/clamav</code>, assigns ownership to the non-root user (fileanalyst), preventing unauthorised modifications<br>
+<code>chmod 770 /var/run/clamav</code>, grants read, write, and execute permissions to the user and group while restricting access to others</p>
+<p>Overall this setup ensures that only the designated user can interact with the ClamAV socket, while blocking unauthorised access from other processes.</p>
+<h2 id="essential-packages-needed-for-our-environment">Essential Packages needed for our Environment<a hidden class="anchor" aria-hidden="true" href="#essential-packages-needed-for-our-environment">#</a></h2>
+<p>In this section, we will install all the necessary packages to run our scripts effectively. Additionally these packages will enable file scanning for potential threats, facilitate file type identification, provide debugging tools, and ensure secure privilege management.</p>
+<p><code>python3-minimal</code>:  Lightweight Python installation<br>
+<code>python3-pip</code>: Package Manager for Python<br>
+<code>libmagic1</code>: File type detection<br>
+<code>clamav</code> &amp; <code>clamav-daemon</code>: Antivirus scanning<br>
+<code>gosu</code>: Secure privilege de-escalation<br>
+<code>netcat-openbsd</code>: Network utilities for debugging</p>
+<pre tabindex="0"><code>RUN apt-get update &amp;&amp; apt-get install -y \
+    python3-minimal \
+    python3-pip \
+    libmagic1 \
+    clamav \
+    clamav-daemon \
+    gosu \
+    netcat-openbsd &amp;&amp; \
+    apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+</code></pre><p><code>apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*</code>, cleans up unecessary package files to minimise image size and potential risks</p>
+<p>Then we install Python dependencies from requirements.txt :</p>
+<pre tabindex="0"><code>COPY requirements.txt ./  
+RUN pip3 install --no-cache-dir -r requirements.txt  
+</code></pre><p>Which contains <code>python-magic</code>, used for file type determination based on magic numbers, and <code>pyclamd</code>, which provides a Python interface to communicate with ClamAV. Both are essential for the file analysis process .</p>
+<h2 id="safety-features">Safety Features<a hidden class="anchor" aria-hidden="true" href="#safety-features">#</a></h2>
+<p>Below are some key features added to the container :</p>
+<p><strong>1️⃣ ClamAV Configuration</strong></p>
+<pre tabindex="0"><code>RUN echo &#34;LocalSocket /var/run/clamav/clamd.sock&#34; &gt;&gt; /etc/clamav/clamd.conf &amp;&amp; \
+    echo &#34;MaxFileSize 100M&#34; &gt;&gt; /etc/clamav/clamd.conf &amp;&amp; \
+    echo &#34;MaxScanSize 100M&#34; &gt;&gt; /etc/clamav/clamd.conf
+</code></pre><ul>
+<li>File size limitation set to 100MB</li>
+<li>Scan size limitation set to 100MB</li>
+<li>Ensures ClamAV uses a local socket</li>
+</ul>
+<p><strong>2️⃣ User Configuration</strong></p>
+<pre tabindex="0"><code>RUN groupadd -g 10001 fileanalyst &amp;&amp; \
+    useradd -u 10001 -g fileanalyst -s /bin/bash -m -d /home/fileanalyst fileanalyst
+</code></pre><ul>
+<li>Non-root execution</li>
+<li>Fixed UID/GID with limited permisions</li>
+</ul>
+<p><strong>3️⃣ Permission Hardening</strong></p>
+<pre tabindex="0"><code>RUN chown -R fileanalyst:fileanalyst /app/Secure-Docker-Container &amp;&amp; \
+    chmod -R 750 /app/Secure-Docker-Container &amp;&amp; \
+    chmod 770 /app/Secure-Docker-Container/logs &amp;&amp; \
+    find /app/Secure-Docker-Container/scripts-name&#34;*.py&#34; -exec chmod 500 {} \;
+</code></pre><ul>
+<li>Scripts: <code>500</code> (read &amp; execute only)</li>
+<li>Logs: <code>770</code> (full access for service user)</li>
+<li>General files: <code>750</code> (controlled access)</li>
+</ul>
+<p><strong>4️⃣ Kernel Security Configurations</strong></p>
+<pre tabindex="0"><code>RUN echo &#34;kernel.unprivileged_userns_clone=0&#34; &gt;&gt; /etc/sysctl.d/10-security.conf &amp;&amp; \
+    echo &#34;kernel.core_pattern=|/bin/false&#34; &gt;&gt; /etc/sysctl.d/10-security.conf
+</code></pre><ul>
+<li>Prevent unprivileged user namespace creation</li>
+<li>Disable core dumps for security</li>
+</ul>
+<h2 id="final-setup-and-entry-point">Final Setup and Entry Point<a hidden class="anchor" aria-hidden="true" href="#final-setup-and-entry-point">#</a></h2>
+<p>Finally, we define the entrypoint and ensure the container runs under the non-root user :</p>
+<pre tabindex="0"><code>USER fileanalyst
+ENTRYPOINT [&#34;/entrypoint.sh&#34;]
+CMD [&#34;python3&#34;, &#34;analyze.py&#34;]
+</code></pre><p>By specifying <code>USER fileanalyst</code>, we ensure that all operations run with restricted privileges rather than as root.</p>
+<p><strong>entrypoint.sh</strong><br>
+The entrypoint.sh script is responsible for:</p>
+<ol>
+<li>
+<p>Updating ClamAV virus definitions using <code>freshclam</code>.</p>
+</li>
+<li>
+<p>Starting the ClamAV daemon (clamd) in the background with <code>clamd &amp;</code>.</p>
+</li>
+<li>
+<p>Waiting for ClamAV to initialise before proceeding.</p>
+</li>
+</ol>
+<pre tabindex="0"><code>echo &#34;Waiting for socket...&#34;
+timeout=10
+while [ ! -S /var/run/clamav/clamd.sock ] &amp;&amp; [ $timeout -gt 0 ]; do
+    sleep 1
+    ((timeout--))
+done
+</code></pre><ol start="4">
+<li>Setting the correct socket permissions.</li>
+</ol>
+<pre tabindex="0"><code>chown fileanalyst:fileanalyst /var/run/clamav/clamd.sock
+chmod 660 /var/run/clamav/clamd.sock
+</code></pre><ol start="5">
+<li>Executing the container’s main process under a the file analyst user.</li>
+</ol>
+<pre tabindex="0"><code>exec gosu fileanalyst &#34;$@&#34;
+</code></pre><p>This ensures that ClamAV is fully initialised before any further processes run, preventing potential failures due to an unresponsive antivirus daemon. The use of gosu enhances security by ensuring the container does not run as root.</p>
+<h2 id="future-posts">Future Posts<a hidden class="anchor" aria-hidden="true" href="#future-posts">#</a></h2>
+<p>With the Dockerfile done,
+we will in the next installment, break down the Python scripts for analysis and execution, discuss the rationale behind each scripts design decision .</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="https://example.org/">Marcus1car </a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
