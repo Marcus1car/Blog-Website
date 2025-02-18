@@ -16,16 +16,16 @@ Why this project? In cybersecurity, safely analyzing potentially harmful files i
 A secure, controlled environment helps professionals examine files without risking their main system.
 This blog series will document my journey, mistakes, lessons, and successes included.">
 <meta name="author" content="">
-<link rel="canonical" href="https://marcus1car.github.io/Blog-Website/posts/secure-docker-container_%231/">
-<link crossorigin="anonymous" href="/Blog-Website/assets/css/stylesheet.45e028aa8ce0961349adf411b013ee39406be2c0bc80d4ea3fc04555f7f4611a.css" integrity="sha256-ReAoqozglhNJrfQRsBPuOUBr4sC8gNTqP8BFVff0YRo=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://marcus1car.github.io/Blog-Website/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://marcus1car.github.io/Blog-Website/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://marcus1car.github.io/Blog-Website/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://marcus1car.github.io/Blog-Website/apple-touch-icon.png">
-<link rel="mask-icon" href="https://marcus1car.github.io/Blog-Website/safari-pinned-tab.svg">
+<link rel="canonical" href="https://marcus1car.github.io/posts/secure-docker-container_%231/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.45e028aa8ce0961349adf411b013ee39406be2c0bc80d4ea3fc04555f7f4611a.css" integrity="sha256-ReAoqozglhNJrfQRsBPuOUBr4sC8gNTqP8BFVff0YRo=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://marcus1car.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://marcus1car.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://marcus1car.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://marcus1car.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://marcus1car.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://marcus1car.github.io/Blog-Website/posts/secure-docker-container_%231/">
+<link rel="alternate" hreflang="en" href="https://marcus1car.github.io/posts/secure-docker-container_%231/">
 <noscript>
     <style>
         #theme-toggle,
@@ -62,7 +62,7 @@ This blog series will document my journey, mistakes, lessons, and successes incl
         }
 
     </style>
-</noscript><meta property="og:url" content="https://marcus1car.github.io/Blog-Website/posts/secure-docker-container_%231/">
+</noscript><meta property="og:url" content="https://marcus1car.github.io/posts/secure-docker-container_%231/">
   <meta property="og:site_name" content="Marcus1car ">
   <meta property="og:title" content="Secure-Docker-Container #1 : Building a Cybersecurity Analysis Environment">
   <meta property="og:description" content="Introduction to My Docker Security Project As my first independent project , I aim to create a secure, isolated environment for file analysis and execution. This series of blog posts will chronicle the development of my Secure Docker Container, offering insights into Docker, cybersecurity principles, and practical software development.
@@ -93,13 +93,13 @@ This blog series will document my journey, mistakes, lessons, and successes incl
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "https://marcus1car.github.io/Blog-Website/posts/"
+      "item": "https://marcus1car.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "Secure-Docker-Container #1 : Building a Cybersecurity Analysis Environment",
-      "item": "https://marcus1car.github.io/Blog-Website/posts/secure-docker-container_%231/"
+      "item": "https://marcus1car.github.io/posts/secure-docker-container_%231/"
     }
   ]
 }
@@ -121,14 +121,14 @@ This blog series will document my journey, mistakes, lessons, and successes incl
   "dateModified": "2025-01-25T16:35:43+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://marcus1car.github.io/Blog-Website/posts/secure-docker-container_%231/"
+    "@id": "https://marcus1car.github.io/posts/secure-docker-container_%231/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Marcus1car ",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://marcus1car.github.io/Blog-Website/favicon.ico"
+      "url": "https://marcus1car.github.io/favicon.ico"
     }
   }
 }
@@ -150,7 +150,7 @@ This blog series will document my journey, mistakes, lessons, and successes incl
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://marcus1car.github.io/Blog-Website/" accesskey="h" title="Marcus1car  (Alt + H)">Marcus1car </a>
+            <a href="https://marcus1car.github.io/" accesskey="h" title="Marcus1car  (Alt + H)">Marcus1car </a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -175,21 +175,6 @@ This blog series will document my journey, mistakes, lessons, and successes incl
             </div>
         </div>
         <ul id="menu">
-            <li>
-                <a href="https://marcus1car.github.io/Blog-Website/" title="Home">
-                    <span>Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://marcus1car.github.io/Blog-Website/posts/" title="Blog">
-                    <span>Blog</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://marcus1car.github.io/Blog-Website/" title="Contents">
-                    <span>Contents</span>
-                </a>
-            </li>
         </ul>
     </nav>
 </header>
@@ -306,7 +291,7 @@ The core philosophy is simple yet powerful: provide a controlled, isolated space
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="https://marcus1car.github.io/Blog-Website/">Marcus1car </a></span> · 
+        <span>&copy; 2025 <a href="https://marcus1car.github.io/">Marcus1car </a></span> · 
 
     <span>
         Powered by
