@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Marcus1car </title>
-    <link>https://example.org/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on Marcus1car </description>
     <generator>Hugo -- 0.143.1</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 04 Feb 2025 16:35:43 +0100</lastBuildDate>
-    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Secure-Docker-Container #2 : Understanding the Dockerfile</title>
-      <link>https://example.org/posts/secure-docker-container_%232/</link>
+      <link>http://localhost:1313/posts/secure-docker-container_%232/</link>
       <pubDate>Tue, 04 Feb 2025 16:35:43 +0100</pubDate>
-      <guid>https://example.org/posts/secure-docker-container_%232/</guid>
+      <guid>http://localhost:1313/posts/secure-docker-container_%232/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;In this post I will go over the Dockerfile of the Secure Docker Container. A blueprint for creating our secure and controlled environment, ensuring that the system is isolated, stable, and resistant to attacks.&lt;/p&gt;
 &lt;p&gt;After writing the Python scripts, I realised that starting with the Dockerfile might have been a mistake, as it made the writing process more complicated than necessary. Nonetheless, let’s break it down and explore its key features.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Secure-Docker-Container #1 : Building a Cybersecurity Analysis Environment</title>
-      <link>https://example.org/posts/secure-docker-container_%231/</link>
+      <link>http://localhost:1313/posts/secure-docker-container_%231/</link>
       <pubDate>Sat, 25 Jan 2025 16:35:43 +0100</pubDate>
-      <guid>https://example.org/posts/secure-docker-container_%231/</guid>
+      <guid>http://localhost:1313/posts/secure-docker-container_%231/</guid>
       <description>&lt;h2 id=&#34;introduction-to-my-docker-security-project&#34;&gt;Introduction to My Docker Security Project&lt;/h2&gt;
 &lt;p&gt;As my first independent project ,
 I aim to create a secure, isolated environment for file analysis and execution.
